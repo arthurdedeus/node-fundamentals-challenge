@@ -16,3 +16,8 @@ export async function CreateTaskHandler(req, res) {
   const task = database.insert('tasks', taskData)
   res.writeHead(201).end(JSON.stringify(task))
 }
+
+export async function RetrieveTaskHandler(req, res) {
+  const tasks = database.select('tasks')
+  res.writeHead(200).end(JSON.stringify(tasks))
+}

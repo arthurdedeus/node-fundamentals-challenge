@@ -1,5 +1,6 @@
-import { CreateTaskHandler } from "./handlers.js";
-import { buildRoutePath } from "./utils/build-route-path.js";
+import { CreateTaskHandler, RetrieveTaskHandler } from './handlers.js'
+
+import { buildRoutePath } from './utils/build-route-path.js'
 
 export const routes = [
   {
@@ -10,7 +11,7 @@ export const routes = [
   {
     method: 'GET',
     path: buildRoutePath('/tasks'),
-    // TODO: Implement handler
+    handler: RetrieveTaskHandler,
   },
   {
     method: 'PUT',
