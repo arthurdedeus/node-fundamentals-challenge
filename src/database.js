@@ -1,3 +1,4 @@
+import { CustomException } from './exceptions/custom-exception.js'
 import fs from 'node:fs/promises'
 
 const databasePath = new URL('../db.json', import.meta.url)
@@ -22,7 +23,7 @@ export class Database {
     if (rowIndex > -1) {
       return { object: this.#database[table][rowIndex], rowIndex }
     }
-    throw new Error('Not Found')
+    throw new CustomException('Not Found', 404)
   }
 
   select(table, search) {
@@ -59,10 +60,9 @@ export class Database {
   }
 
   delete(table, id) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
-    if (rowIndex > -1) {
-      this.#database[table].splice(rowIndex, 1)
-      this.#persist()
-    }
+    const { rowIndex } = this.#getObjectOr404(table, id)
+
+    this.#database[table].splice(rowIndex, 1)
+    this.#persist()
   }
 }

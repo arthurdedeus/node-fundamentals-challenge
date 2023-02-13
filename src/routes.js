@@ -1,4 +1,9 @@
-import { CreateTaskHandler, RetrieveTaskHandler, UpdateTaskHandler } from './handlers.js'
+import {
+  CreateTaskHandler,
+  DeleteTaskHandler,
+  RetrieveTaskHandler,
+  UpdateTaskHandler,
+} from './handlers.js'
 
 import { buildRoutePath } from './utils/build-route-path.js'
 
@@ -21,7 +26,7 @@ export const routes = [
   {
     method: 'DELETE',
     path: buildRoutePath('/tasks/:id'),
-    // TODO: Implement handler
+    handler: DeleteTaskHandler,
   },
   {
     method: 'PATCH',

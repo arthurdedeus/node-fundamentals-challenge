@@ -1,3 +1,5 @@
+import { CustomException } from '../exceptions/custom-exception.js'
+
 export function TaskPayloadSerializer(payload, failSilently = false) {
   const fields = ['title', 'description']
   const serializedPayload = {}
@@ -12,7 +14,7 @@ export function TaskPayloadSerializer(payload, failSilently = false) {
   })
 
   if (missingFields.length > 0 && !failSilently) {
-    throw new Error(`Missing fields: ${missingFields.join(', ')}`)
+    throw new CustomException(`Missing fields: ${missingFields.join(', ')}`, 400)
   }
 
   return serializedPayload
