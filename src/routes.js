@@ -1,4 +1,4 @@
-import { CreateTaskHandler, RetrieveTaskHandler } from './handlers.js'
+import { CreateTaskHandler, RetrieveTaskHandler, UpdateTaskHandler } from './handlers.js'
 
 import { buildRoutePath } from './utils/build-route-path.js'
 
@@ -16,7 +16,7 @@ export const routes = [
   {
     method: 'PUT',
     path: buildRoutePath('/tasks/:id'),
-    // TODO: Implement handler
+    handler: UpdateTaskHandler,
   },
   {
     method: 'DELETE',

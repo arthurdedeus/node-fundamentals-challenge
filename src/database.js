@@ -17,6 +17,14 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
   }
 
+  #getObjectOr404(table, id) {
+    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
+    if (rowIndex > -1) {
+      return { object: this.#database[table][rowIndex], rowIndex }
+    }
+    throw new Error('Not Found')
+  }
+
   select(table, search) {
     let data = this.#database[table] ?? []
 
@@ -41,13 +49,13 @@ export class Database {
   }
 
   update(table, id, data) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
-    if (rowIndex > -1) {
-      const updatedUser = { id, ...data }
-      this.#database[table][rowIndex] = updatedUser
-      this.#persist()
-      return updatedUser
-    }
+    const { object, rowIndex } = this.#getObjectOr404(table, id)
+    const updatedObject = { ...object, ...data, updated_at: new Date() }
+
+    this.#database[table][rowIndex] = updatedObject
+    this.#persist()
+
+    return updatedObject
   }
 
   delete(table, id) {
