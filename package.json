@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/arthurdedeus/node-fundamentals-challenge/issues"
   },
-  "homepage": "https://github.com/arthurdedeus/node-fundamentals-challenge#readme"
+  "homepage": "https://github.com/arthurdedeus/node-fundamentals-challenge#readme",
+  "dependencies": {
+    "csv-parse": "^5.3.5"
+  }
 }
