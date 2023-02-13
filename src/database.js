@@ -1,3 +1,4 @@
+import { CustomException } from './exceptions/custom-exception.js'
 import fs from 'node:fs/promises'
 
 const databasePath = new URL('../db.json', import.meta.url)
@@ -15,6 +16,14 @@ export class Database {
 
   #persist() {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
+  }
+
+  #getObjectOr404(table, id) {
+    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
+    if (rowIndex > -1) {
+      return { object: this.#database[table][rowIndex], rowIndex }
+    }
+    throw new CustomException('Not Found', 404)
   }
 
   select(table, search) {
@@ -41,20 +50,19 @@ export class Database {
   }
 
   update(table, id, data) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
-    if (rowIndex > -1) {
-      const updatedUser = { id, ...data }
-      this.#database[table][rowIndex] = updatedUser
-      this.#persist()
-      return updatedUser
-    }
+    const { object, rowIndex } = this.#getObjectOr404(table, id)
+    const updatedObject = { ...object, ...data, updated_at: new Date() }
+
+    this.#database[table][rowIndex] = updatedObject
+    this.#persist()
+
+    return updatedObject
   }
 
   delete(table, id) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
-    if (rowIndex > -1) {
-      this.#database[table].splice(rowIndex, 1)
-      this.#persist()
-    }
+    const { rowIndex } = this.#getObjectOr404(table, id)
+
+    this.#database[table].splice(rowIndex, 1)
+    this.#persist()
   }
 }

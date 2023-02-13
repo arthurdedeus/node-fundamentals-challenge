@@ -1,27 +1,37 @@
+import {
+  CompleteTaskHandler,
+  CreateTaskHandler,
+  DeleteTaskHandler,
+  ListTasksHandler,
+  UpdateTaskHandler,
+} from './handlers.js'
+
+import { buildRoutePath } from './utils/build-route-path.js'
+
 export const routes = [
   {
     method: 'POST',
     path: buildRoutePath('/tasks'),
-    // TODO: Implement handler
+    handler: CreateTaskHandler,
   },
   {
     method: 'GET',
     path: buildRoutePath('/tasks'),
-    // TODO: Implement handler
+    handler: ListTasksHandler,
   },
   {
     method: 'PUT',
     path: buildRoutePath('/tasks/:id'),
-    // TODO: Implement handler
+    handler: UpdateTaskHandler,
   },
   {
     method: 'DELETE',
     path: buildRoutePath('/tasks/:id'),
-    // TODO: Implement handler
+    handler: DeleteTaskHandler,
   },
   {
     method: 'PATCH',
     path: buildRoutePath('/tasks/:id/complete'),
-    // TODO: Implement handler
+    handler: CompleteTaskHandler,
   },
 ]
