@@ -1,7 +1,8 @@
 import {
+  CompleteTaskHandler,
   CreateTaskHandler,
   DeleteTaskHandler,
-  RetrieveTaskHandler,
+  ListTasksHandler,
   UpdateTaskHandler,
 } from './handlers.js'
 
@@ -16,7 +17,7 @@ export const routes = [
   {
     method: 'GET',
     path: buildRoutePath('/tasks'),
-    handler: RetrieveTaskHandler,
+    handler: ListTasksHandler,
   },
   {
     method: 'PUT',
@@ -31,6 +32,6 @@ export const routes = [
   {
     method: 'PATCH',
     path: buildRoutePath('/tasks/:id/complete'),
-    // TODO: Implement handler
+    handler: CompleteTaskHandler,
   },
 ]

@@ -22,7 +22,7 @@ export async function CreateTaskHandler(req, res) {
   }
 }
 
-export async function RetrieveTaskHandler(req, res) {
+export async function ListTasksHandler(req, res) {
   const tasks = database.select('tasks')
   res.writeHead(200).end(JSON.stringify(tasks))
 }
@@ -43,6 +43,20 @@ export async function DeleteTaskHandler(req, res) {
     const { id } = req.params
     const task = database.delete('tasks', id)
     res.writeHead(204).end(JSON.stringify(task))
+  } catch (error) {
+    return res.writeHead(error.code).end(JSON.stringify({ error: error.message }))
+  }
+}
+
+export async function CompleteTaskHandler(req, res) {
+  try {
+    const { id } = req.params
+    const oldTask = database.select('tasks', { id })[0]
+    const data = { completed_at: oldTask.completed_at ? null : new Date() }
+
+    const task = database.update('tasks', id, data)
+
+    res.writeHead(200).end(JSON.stringify(task))
   } catch (error) {
     return res.writeHead(error.code).end(JSON.stringify({ error: error.message }))
   }
